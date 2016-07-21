@@ -1,56 +1,89 @@
-class MyWordList extends React.Component {
+/**
+ * App
+ * -- Todos
+ * ---- [Todo]
+ */
+
+class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { count: 0 };
+    this.state = {
+      inputValue: 'HELLO!!!',
+      todos: [
+        { name: 'Todo number one' },
+        { name: 'Todo number Two' },
+        { name: 'Todo number THREE' },
+      ]
+    };
   }
 
-  clickHandler(e) {
-    this.setState({ count: this.state.count + 1 });
+  onKeyDownHandler(e) {
+    switch (e.key) {
+      case "Enter": {
+        if (e.target.value === '') {
+          return;
+        }
+        const newTodos = this.state.todos.concat({ name: e.target.value });
+        this.setState({
+          todos: newTodos,
+          inputValue: '',
+        });
+      }
+    }
+  }
+
+  componentDidMount() {
+    // Focus on the input.
+    this.refs.ourInput.focus();
   }
 
   render() {
-    const wordList = ['world', 'dog', 'dog', 'cat'].map((word, idx) => {
-      return (
-        <li key={idx}>{this.props.prefix} Hello {word}!</li>
-      );
-    });
+    return (
+      <div>
+        <input
+          ref='ourInput'
+          value={this.state.inputValue}
+          type='text'
+          onKeyDown={this.onKeyDownHandler.bind(this)}
+          onChange={e => this.setState({ inputValue: e.target.value })} />
+        <Todos items={this.state.todos} />
+      </div>
+    )
+  }
+}
 
-    const onChangeHandler = (e) => {
-      console.log('New value:', e.target.value);
-      this.setState({ count: this.state.count + 1 });
-    };
+class Todo extends React.Component {
+  componentDidMount() {
+    console.log('IM MOUNTED!', this);
+  }
+
+  render() {
+    return <div>{this.props.name}</div>;
+  }
+}
+
+class Todos extends React.Component {
+  render() {
+    const todos = this.props.
+      items
+      .map((item, idx) => <li key={item.name + idx}><Todo name={item.name} /></li>);
 
     return (
-      <div
-        style={{ border: '1px solid black', margin: 5 }}
-        onClick={this.clickHandler.bind(this)}>
-
-        The count is <input type='checkbox' checked={this.state.count % 2 === 0} onChange={onChangeHandler}/> {this.state.count}.
-
-        <ul style={{ backgroundColor: '#44f' }}>
-          {wordList}
+      <div>
+        <ul>
+          {todos}
         </ul>
       </div>
     );
   }
 }
 
-MyWordList.propTypes = {
-  prefix: React.PropTypes.string.isRequired,
-};
-
-function getElement() {
-  return (
-    <div>
-      <MyWordList prefix='Uhhhhhh'/>
-      <MyWordList prefix='Bahhh'/>
-      <MyWordList prefix='Deee'/>
-
-
-    </div>
-  );
+Todos.propTypes = {
+  items: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
 }
 
-const rootNode = document.getElementById('myRootNode');
-ReactDOM.render(getElement(), rootNode);
+ReactDOM.render(
+  <App/>,
+  document.getElementById('myRootNode')
+);
 
