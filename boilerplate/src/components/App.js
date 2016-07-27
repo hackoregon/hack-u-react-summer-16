@@ -21,12 +21,12 @@ export default class App extends Component {
         <div style={{
           display: 'flex',
           flexDirection: 'row',
+          justifyContent: 'space-between',
         }}>
           <div style={{
             border: '1px solid #ddd',
-            margin: 10,
+            width: '49%',
             padding: 5,
-            flex: '1'
           }}>
             <h2>Individuals</h2>
 
@@ -50,9 +50,8 @@ export default class App extends Component {
           </div>
           <div style={{
             border: '1px solid #ddd',
-            margin: 10,
+            width: '49%',
             padding: 5,
-            flex: '1'
           }}>
             <h2>Businesses</h2>
             <BTCSorter

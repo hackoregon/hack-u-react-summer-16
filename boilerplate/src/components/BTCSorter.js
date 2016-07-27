@@ -52,7 +52,9 @@ export default class BTCSorter extends Component {
 
         <table className='table'>
           <caption>
-            BTC Payees Info (Toggle sort order:&nbsp;
+            BTC Payees Info
+            <br/>
+            (Toggle sort order:&nbsp;
             <a href='' onClick={e => {
               e.preventDefault();
               let newOrder = this.props.sortOrder === 'asc' ? 'desc' : 'asc';
