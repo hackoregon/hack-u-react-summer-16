@@ -29,7 +29,41 @@ export default class BTCSorter extends Component {
     }
   }
 
+  onKeyDown(e) {
+    switch (e.key) {
+      case 'Enter': {
+        this._doRefresh();
+      }
+    }
+  }
+  onSortClick(e) {
+    e.preventDefault();
+    let newOrder = this.props.sortOrder === 'asc' ? 'desc' : 'asc';
+    this.props.onUpdateSortOrder(newOrder);
+  }
+
   render() {
+    const Sorter = () => (
+      <a href='' onClick={this.onSortClick.bind(this)}>
+        {this.props.sortOrder}
+      </a>
+    );
+
+    const tableItems = this.props.items
+      .sort((a, b) =>
+        this.props.sortOrder === 'asc'
+        ? a.sum - b.sum
+        : b.sum - a.sum
+      )
+      .map(item => {
+        return (
+          <tr key={item.contributor_payee}>
+            <td>{item.contributor_payee}</td>
+            <td>{item.sum}</td>
+          </tr>
+        );
+      });
+
     return (
       <div>
         <div className='form-group' style={{ width: '50%' }}>
@@ -40,28 +74,14 @@ export default class BTCSorter extends Component {
             value={this.state.count}
             onChange={this.onChangeInput.bind(this)}
             onBlur={this._doRefresh.bind(this)}
-            onKeyDown={e => {
-              switch (e.key) {
-                case 'Enter': {
-                  this._doRefresh();
-                }
-              }
-            }}
+            onKeyDown={this.onKeyDown.bind(this)}
             type='number' />
         </div>
 
         <table className='table'>
           <caption>
-            BTC Payees Info
-            <br/>
-            (Toggle sort order:&nbsp;
-            <a href='' onClick={e => {
-              e.preventDefault();
-              let newOrder = this.props.sortOrder === 'asc' ? 'desc' : 'asc';
-              this.props.onUpdateSortOrder(newOrder);
-            }}>
-              {this.props.sortOrder}
-            </a>)
+            <div>BTC Payees Info</div>
+            <div>(Toggle sort order: <Sorter />)</div>
           </caption>
           <thead>
             <tr>
@@ -70,20 +90,7 @@ export default class BTCSorter extends Component {
             </tr>
           </thead>
           <tbody>
-            {this.props.items
-              .sort((a, b) =>
-                this.props.sortOrder === 'asc'
-                ? a.sum - b.sum
-                : b.sum - a.sum
-              )
-              .map(item => {
-                return (
-                  <tr key={item.contributor_payee}>
-                    <td>{item.contributor_payee}</td>
-                    <td>{item.sum}</td>
-                  </tr>
-                );
-              })}
+            {tableItems}
           </tbody>
         </table>
 
