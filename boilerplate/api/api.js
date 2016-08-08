@@ -19,6 +19,10 @@ app.use(cors());
 app.use(bodyParser.json());
 
 app.post('/posts/new', function(req, res) {
+  if (!req.body || !req.body.title && !req.body.body) {
+    res.status(500).json({ error: 'Missing required fields.' });
+  }
+
   const newPost = { ...defaultPost, ...req.body, id: _nextId++ };
   posts.push(newPost);
   res.json(newPost);
