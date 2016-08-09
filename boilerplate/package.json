@@ -26,6 +26,7 @@
     }
   },
   "dependencies": {
+    "redux": "^3.5.2"
   },
   "devDependencies": {
     "babel-cli": "^6.10.1",

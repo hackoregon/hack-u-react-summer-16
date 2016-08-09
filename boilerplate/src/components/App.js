@@ -5,7 +5,10 @@ export default class App extends Component {
     return (
       <div className='container'>
         <h1>Hello, world!</h1>
-        <p>Let's get funky.</p>
+        <p>Here's our Redux state!</p>
+        <pre>
+          {JSON.stringify(this.props.state, null, 2)}
+        </pre>
       </div>
     );
   }
