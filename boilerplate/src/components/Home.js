@@ -1,37 +1,21 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router';
 
-import Author from './Author';
-import Content from './Content';
-import ArticleTitle from './ArticleTitle';
-import ArticleBody from './ArticleBody';
 import CreateArticle from './CreateArticle';
 
+import { newArticleAction } from '../reducer';
+
+@connect(
+  state => ({
+    articles: state.articles,
+  }),
+)
 export default class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
       isCreating: false,
-      articles: [
-        {
-          id: 3,
-          author: 'Blah Bloba',
-          title: 'How to food the thought',
-          body: 'Article 3.',
-        },
-        {
-          id: 1,
-          author: 'Dan Schuman',
-          title: 'How to cook the food',
-          body: `Lorem ipsum Id dolore irure in in culpa
-                amet eu dolore velit aliquip officia qui aliquip.`,
-        },
-        {
-          id: 2,
-          author: 'Bob Jones',
-          title: 'How to food the cook',
-          body: 'Article 2.',
-        },
-      ],
     };
   }
 
@@ -50,35 +34,43 @@ export default class Home extends Component {
 
         <CreateArticle
           onCreateArticle={(newArticle) => {
-            newArticle.id = this.state.articles.length + 1;
+            newArticle.id = this.props.articles.length + 1;
             this.setState({
               isCreating: false,
-              articles: [
-                newArticle,
-                ...this.state.articles,
-              ],
             });
+
+            const data = JSON.stringify(newArticle);
+
+            fetch('http://bloggy.2dot3.com/posts/new', {
+              method: 'POST',
+              headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+              },
+              body: data,
+            });
+
+            this.props.dispatch(newArticleAction(newArticle));
           }}
           isVisible={this.state.isCreating} />
 
-        {this.state.articles.map(article => {
-          return (
-            <Content key={article.id}>
-              <Author>
-                {article.author}
-              </Author>
+        <ArticleLinkList articles={this.props.articles} />
 
-              <ArticleTitle>
-                {article.title}
-              </ArticleTitle>
-
-              <ArticleBody>
-                {article.body}
-              </ArticleBody>
-            </Content>
-          );
-        })}
       </div>
     );
   }
 }
+
+const ArticleLinkList = props => {
+  return (
+    <ul>
+      {props.articles.map(article => {
+        return (
+          <li key={article.id}>
+            <Link to={'/posts/' + article.id}>{article.title}</Link>
+          </li>
+        );
+      })}
+    </ul>
+  );
+};

@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 export default class ArticleTitle extends Component {
   render() {
     return (
-      <div>{this.props.children}</div>
+      <h2>{this.props.children}</h2>
     );
   }
 }
