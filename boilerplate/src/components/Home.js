@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
 
-import { Link } from 'react-router';
-
-import Header from './Header';
 import Author from './Author';
 import Content from './Content';
 import ArticleTitle from './ArticleTitle';
