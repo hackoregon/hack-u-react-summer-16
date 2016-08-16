@@ -42,12 +42,12 @@ export default class App extends Component {
 
         <hr/>
 
-          <button onClick={() => this.props.dispatch(togglePolling()) }>
-            {this.props.isPolling === true
-              ? 'Disable'
-              : 'Enable'
-            } polling
-          </button>
+        <button onClick={() => this.props.dispatch(togglePolling()) }>
+          {this.props.isPolling === true
+            ? 'Disable'
+            : 'Enable'
+          } polling
+        </button>
       </div>
     );
   }
