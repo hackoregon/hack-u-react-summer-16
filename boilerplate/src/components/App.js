@@ -3,17 +3,15 @@ import { Link } from 'react-router';
 import { connect } from 'react-redux';
 
 import Header from './Header';
-import { setArticles } from '../reducer';
+import { startPolling } from '../reducer';
 
-@connect()
+@connect(state => ({
+  isLoading: state.isLoading,
+}))
 export default class App extends Component {
 
   async componentDidMount() {
-    setInterval(async () => {
-      const fetched = await fetch('http://bloggy.2dot3.com/posts');
-      const articles = await fetched.json();
-      this.props.dispatch(setArticles(articles));
-    }, 1500);
+    this.props.dispatch(startPolling());
   }
 
   render() {
@@ -24,6 +22,12 @@ export default class App extends Component {
       <div className='container'>
         <Header>
           <h1>My Cool Blog</h1>
+
+          {this.props.isLoading
+            ? <div>I AM LOADING!</div>
+            : <div>Not Loading</div>
+          }
+
           <hr/>
           <h3>
             <Link to='/home'>Home</Link>

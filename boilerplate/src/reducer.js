@@ -1,9 +1,12 @@
 const SOME_ACTION = 'SOME_ACTION';
 const NEW_ARTICLE = 'NEW_ARTICLE';
 const SET_ARTICLES = 'SET_ARTICLES';
+const BEGIN_LOADING = 'BEGIN_LOADING';
+const END_LOADING = 'END_LOADING';
 
 const initialState = {
   foo: 'Hello from Redux!!!',
+  isLoading: false,
   articles: [],
 };
 
@@ -26,6 +29,18 @@ export default function reducer(state = initialState, action) {
       return {
         ...state,
         articles: action.payload,
+      };
+
+    case BEGIN_LOADING:
+      return {
+        ...state,
+        isLoading: true,
+      };
+
+    case END_LOADING:
+      return {
+        ...state,
+        isLoading: false,
       };
 
     default:
@@ -68,5 +83,33 @@ export function createArticleAction(newArticle) {
     });
 
     dispatch(newArticleAction(newArticle));
+  };
+}
+
+function beginLoading() {
+  return {
+    type: BEGIN_LOADING,
+  };
+}
+
+function endLoading() {
+  return {
+    type: END_LOADING,
+  };
+}
+
+export function startPolling() {
+  return function(dispatch, getState) {
+    setInterval(async () => {
+
+      dispatch(beginLoading());
+
+      const fetched = await fetch('http://bloggy.2dot3.com/posts');
+      const articles = await fetched.json();
+
+      dispatch(endLoading());
+
+      dispatch(setArticles(articles));
+    }, 1500);
   };
 }

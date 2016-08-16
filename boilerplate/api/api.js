@@ -5,7 +5,7 @@ const app = express();
 const cors = require('cors');
 const bodyParser = require('body-parser');
 
-const posts = [];
+let posts = [];
 const defaultPost = {
   id: null,
   author: 'Unknown Author',
@@ -21,6 +21,7 @@ app.use(bodyParser.json());
 app.post('/posts/new', function(req, res) {
   if (!req.body || !req.body.title && !req.body.body) {
     res.status(500).json({ error: 'Missing required fields.' });
+    return;
   }
 
   const newPost = { ...defaultPost, ...req.body, id: _nextId++ };
@@ -30,6 +31,22 @@ app.post('/posts/new', function(req, res) {
 
 app.get('/posts', function(req, res) {
   res.json(posts.map(post => ({ ...defaultPost, ...post })));
+});
+
+app.post('/posts/:id', function(req, res) {
+  if (!req.body || !req.body.title && !req.body.body) {
+    res.status(500).json({ error: 'Missing required fields.' });
+    return;
+  }
+  posts = posts.map(post => {
+    if (post.id.toString() === req.params.id.toString()) {
+      return { ...post, ...req.body, id: post.id, };
+    }
+
+    return post;
+  });
+
+  res.json(posts);
 });
 
 app.listen(9999, function() {
