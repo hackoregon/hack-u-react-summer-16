@@ -3,10 +3,11 @@ import { Link } from 'react-router';
 import { connect } from 'react-redux';
 
 import Header from './Header';
-import { startPolling } from '../reducer';
+import { startPolling, togglePolling } from '../reducer';
 
 @connect(state => ({
   isLoading: state.isLoading,
+  isPolling: state.shouldPoll,
 }))
 export default class App extends Component {
 
@@ -23,6 +24,12 @@ export default class App extends Component {
         <Header>
           <h1>My Cool Blog</h1>
 
+          <button onClick={() => this.props.dispatch(togglePolling()) }>
+            {this.props.isPolling === true
+              ? 'Disable'
+              : 'Enable'
+            } polling
+          </button>
           {this.props.isLoading
             ? <div>I AM LOADING!</div>
             : <div>Not Loading</div>

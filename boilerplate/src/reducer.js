@@ -3,10 +3,12 @@ const NEW_ARTICLE = 'NEW_ARTICLE';
 const SET_ARTICLES = 'SET_ARTICLES';
 const BEGIN_LOADING = 'BEGIN_LOADING';
 const END_LOADING = 'END_LOADING';
+const SHOULD_POLL = 'SHOULD_POLL';
 
 const initialState = {
   foo: 'Hello from Redux!!!',
   isLoading: false,
+  shouldPoll: true,
   articles: [],
 };
 
@@ -41,6 +43,12 @@ export default function reducer(state = initialState, action) {
       return {
         ...state,
         isLoading: false,
+      };
+
+    case SHOULD_POLL:
+      return {
+        ...state,
+        shouldPoll: action.payload,
       };
 
     default:
@@ -98,9 +106,25 @@ function endLoading() {
   };
 }
 
+function _shouldPoll(val) {
+  return {
+    type: SHOULD_POLL,
+    payload: val,
+  };
+}
+
+export function togglePolling() {
+  return (dispatch, getState) => dispatch(_shouldPoll(!getState().shouldPoll));
+}
+
+let _id = null;
 export function startPolling() {
   return function(dispatch, getState) {
-    setInterval(async () => {
+    clearInterval(_id);
+    _id = setInterval(async () => {
+      if (!getState().shouldPoll) {
+        return;
+      }
 
       dispatch(beginLoading());
 
