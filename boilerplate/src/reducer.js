@@ -53,3 +53,20 @@ export function setArticles(articles) {
     payload: articles,
   };
 }
+
+export function createArticleAction(newArticle) {
+  return (dispatch, getState) => {
+    const data = JSON.stringify(newArticle);
+
+    fetch('http://bloggy.2dot3.com/posts/new', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: data,
+    });
+
+    dispatch(newArticleAction(newArticle));
+  };
+}

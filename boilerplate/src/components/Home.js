@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 
 import CreateArticle from './CreateArticle';
 
-import { newArticleAction } from '../reducer';
+import { createArticleAction } from '../reducer';
 
 @connect(
   state => ({
@@ -39,18 +39,8 @@ export default class Home extends Component {
               isCreating: false,
             });
 
-            const data = JSON.stringify(newArticle);
+            this.props.dispatch(createArticleAction(newArticle));
 
-            fetch('http://bloggy.2dot3.com/posts/new', {
-              method: 'POST',
-              headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-              },
-              body: data,
-            });
-
-            this.props.dispatch(newArticleAction(newArticle));
           }}
           isVisible={this.state.isCreating} />
 
