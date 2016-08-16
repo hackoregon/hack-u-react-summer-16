@@ -24,12 +24,6 @@ export default class App extends Component {
         <Header>
           <h1>My Cool Blog</h1>
 
-          <button onClick={() => this.props.dispatch(togglePolling()) }>
-            {this.props.isPolling === true
-              ? 'Disable'
-              : 'Enable'
-            } polling
-          </button>
           {this.props.isLoading
             ? <div>I AM LOADING!</div>
             : <div>Not Loading</div>
@@ -46,6 +40,14 @@ export default class App extends Component {
 
         {React.cloneElement(this.props.children, { title: myTitle })}
 
+        <hr/>
+
+          <button onClick={() => this.props.dispatch(togglePolling()) }>
+            {this.props.isPolling === true
+              ? 'Disable'
+              : 'Enable'
+            } polling
+          </button>
       </div>
     );
   }
