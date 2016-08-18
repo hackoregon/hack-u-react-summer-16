@@ -3,6 +3,7 @@ const NEW_ARTICLE = 'NEW_ARTICLE';
 const SET_ARTICLES = 'SET_ARTICLES';
 const BEGIN_LOADING = 'BEGIN_LOADING';
 const END_LOADING = 'END_LOADING';
+const EDIT_ARTICLE = 'EDIT_ARTICLE';
 const SHOULD_POLL = 'SHOULD_POLL';
 
 const initialState = {
@@ -103,6 +104,20 @@ function beginLoading() {
 function endLoading() {
   return {
     type: END_LOADING,
+  };
+}
+
+export function editArticle(editedArticle) {
+  return async (dispatch, getState) => {
+    const data = JSON.stringify(editedArticle);
+    await fetch(`http://bloggy.2dot3.com/posts/${editedArticle.id}`, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: data,
+    });
   };
 }
 

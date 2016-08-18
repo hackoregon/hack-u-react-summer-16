@@ -5,10 +5,28 @@ export default class CreateArticle extends Component {
     title: '',
     author: '',
     body: '',
+    touched: false,
+  };
+
+  static defaultProps = {
+    article: {},
   };
 
   handleChange(key, e) {
-    this.setState({ [key]: e.target.value });
+    this.setState({
+      touched: true,
+      [key]: e.target.value
+    });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (!this.state.touched) {
+      this.setState({
+        title: nextProps.article.title,
+        author: nextProps.article.author,
+        body: nextProps.article.body,
+      });
+    }
   }
 
   render() {
@@ -33,15 +51,9 @@ export default class CreateArticle extends Component {
             title: '',
             body: '',
             author: '',
+            touched: false,
           });
         }}>
-        <div className='form-group'>
-          <input
-            value={this.state.author}
-            onChange={this.handleChange.bind(this, 'author')}
-            type='text'
-            placeholder='Author' />
-        </div>
         <div className='form-group'>
           <input
             value={this.state.title}
@@ -50,9 +62,15 @@ export default class CreateArticle extends Component {
             placeholder='Title' />
         </div>
         <div className='form-group'>
+          <input
+            value={this.state.author}
+            onChange={this.handleChange.bind(this, 'author')}
+            type='text'
+            placeholder='Author' />
+        </div>
+        <div className='form-group'>
           <textarea
             value={this.state.body}
-
             onChange={this.handleChange.bind(this, 'body')}
             placeholder='Body Content' />
         </div>

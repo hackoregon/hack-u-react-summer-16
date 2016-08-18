@@ -49,6 +49,14 @@ app.post('/posts/:id', function(req, res) {
   res.json(posts);
 });
 
+app.delete('/posts/:id', function(req, res) {
+  posts = posts.filter(post =>
+    post.id.toString() !== req.params.id.toString()
+  );
+
+  res.json(posts);
+});
+
 app.listen(9999, function() {
   console.log('Example app listening on port 9999!');
 });
