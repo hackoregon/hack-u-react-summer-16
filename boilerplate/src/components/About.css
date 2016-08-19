@@ -1,0 +1,7 @@
+.container:hover {
+  background-image: url('./kitten.jpg');
+}
+
+:global(.banana) {
+  background-color: yellow;
+}

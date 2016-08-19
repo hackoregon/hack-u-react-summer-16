@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 
 import { someAction } from '../reducer';
 
+const styles = require('./About.css');
+
 @connect(
   state => ({
     reduxState: state,
@@ -12,7 +14,7 @@ export default class About extends React.Component {
   render() {
     return (
       <div>
-        <h4>About Page! {this.props.title}</h4>
+        <h4 className={styles.bob}>About Page! {this.props.title}</h4>
         <div>
           <button onClick={e => this.props.dispatch(someAction(10))}>
             Click me!
@@ -21,7 +23,7 @@ export default class About extends React.Component {
           <div>
             Redux state:
           </div>
-          <pre>
+          <pre className={'banana'}>
             {JSON.stringify(this.props.reduxState, null, 2)}
           </pre>
         </div>

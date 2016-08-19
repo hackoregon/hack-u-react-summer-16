@@ -34,7 +34,7 @@ export default class Home extends Component {
 
         <CreateArticle
           onCreateArticle={(newArticle) => {
-            newArticle.id = this.props.articles.length + 1;
+            newArticle.id = 'TEMP_' + this.props.articles.length + 1;
             this.setState({
               isCreating: false,
             });

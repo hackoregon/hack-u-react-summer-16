@@ -22,9 +22,9 @@ export default class CreateArticle extends Component {
   componentWillReceiveProps(nextProps) {
     if (!this.state.touched) {
       this.setState({
-        title: nextProps.article.title,
-        author: nextProps.article.author,
-        body: nextProps.article.body,
+        title: nextProps.article.title || '',
+        author: nextProps.article.author || '',
+        body: nextProps.article.body || '',
       });
     }
   }
