@@ -21,9 +21,18 @@ export function newStudent(student) {
 
   localStorage.setItem('_students', JSON.stringify(students));
 
-  return Promise.resolve(students);
+  const promise = new Promise((resolve, reject) => {
+    setTimeout(() => resolve(students), 750);
+  });
+
+  return promise;
 }
 
 export function getStudents() {
-  return Promise.resolve(JSON.parse(localStorage.getItem('_students')) || []);
+  const promise = new Promise((resolve, reject) => {
+    setTimeout(() =>
+      resolve(JSON.parse(localStorage.getItem('_students')) || []), 750);
+  });
+
+  return promise;
 }
