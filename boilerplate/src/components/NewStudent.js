@@ -1,18 +1,25 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 
 import { createNewStudent } from 'reducer';
 
+@withRouter
 @connect(
-  state => ({}),
-  dispatch => ({
-    onCreateStudent: newStudent => {
-      dispatch(createNewStudent(newStudent));
+  (state, ownProps) => ({
+    isLoading: state.loading,
+  }),
+  (dispatch, ownProps) => ({
+    onCreateStudent: async newStudent => {
+      await dispatch(createNewStudent(newStudent));
+      ownProps.router.push('/students');
     },
   }),
 )
 export default class NewStudent extends Component {
   render() {
+    const loadingClass = this.props.isLoading ? ' fa-spin' : '';
+
     return (
       <div>
         <h1>New Student</h1>
@@ -30,7 +37,9 @@ export default class NewStudent extends Component {
               placeholder='Student Name' />
           </div>
 
-          <button className='btn btn-primary' type='submit'>Create Student</button>
+          <button className='btn btn-primary' type='submit'>
+            Create Student <i className={'fa fa-paper-plane' + loadingClass}/>
+          </button>
         </form>
       </div>
     );

@@ -1,5 +1,23 @@
 import uuid from 'node-uuid';
 
+export async function addEntry(studentId, entry) {
+  const students = await getStudents();
+  const student = students.find(student => student.id === studentId);
+  if (!student) {
+    throw new Error('Student ID not found');
+  }
+
+  student.entries = student.entries || [];
+  student.entries = [
+    ...student.entries,
+    entry
+  ];
+
+  localStorage.setItem('_students', JSON.stringify(students));
+
+  return students;
+}
+
 export function newStudent(student) {
   let students;
   try {
@@ -13,6 +31,7 @@ export function newStudent(student) {
   }
 
   student.id = uuid.v1();
+  student.entries = [];
 
   students = [
     ...students,
