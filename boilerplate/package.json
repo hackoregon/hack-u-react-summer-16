@@ -26,6 +26,7 @@
     }
   },
   "dependencies": {
+    "karma-phantomjs-launcher": "^1.0.1",
     "node-uuid": "^1.4.7",
     "react-redux": "^4.4.5",
     "react-router": "^2.7.0",
