@@ -1,4 +1,13 @@
 import uuid from 'node-uuid';
+import _ from 'lodash';
+
+function _setStudents(students) {
+  return localStorage.setItem('_students', JSON.stringify(students));
+}
+
+function _getStudents() {
+  return JSON.parse(localStorage.getItem('_students')) || [];
+}
 
 export async function addEntry(studentId, entry) {
   const students = await getStudents();
@@ -13,15 +22,22 @@ export async function addEntry(studentId, entry) {
     entry
   ];
 
-  localStorage.setItem('_students', JSON.stringify(students));
+  _setStudents(students);
 
   return students;
+}
+
+export async function deleteStudent(studentId) {
+  const students = await getStudents();
+  const newStudents = _.reject(students, student => student.id === studentId);
+  _setStudents(newStudents);
+  return newStudents;
 }
 
 export function newStudent(student) {
   let students;
   try {
-    students = JSON.parse(localStorage.getItem('_students')) || [];
+    students = _getStudents();
   } catch (e) {
     students = [];
   }
@@ -38,7 +54,7 @@ export function newStudent(student) {
     student,
   ];
 
-  localStorage.setItem('_students', JSON.stringify(students));
+  _setStudents(students);
 
   const promise = new Promise((resolve, reject) => {
     setTimeout(() => resolve(students), 750);
@@ -50,7 +66,7 @@ export function newStudent(student) {
 export function getStudents() {
   const promise = new Promise((resolve, reject) => {
     setTimeout(() =>
-      resolve(JSON.parse(localStorage.getItem('_students')) || []), 750);
+      resolve(_getStudents()), 750);
   });
 
   return promise;

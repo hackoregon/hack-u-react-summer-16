@@ -3,7 +3,7 @@ import {
   getStudents as apiGetStudents,
 } from '../api';
 
-const NEW_STUDENT_FETCH   = 'myApp/NEW_STUDENT_FETCH';
+export const NEW_STUDENT_FETCH   = 'myApp/NEW_STUDENT_FETCH';
 const NEW_STUDENT_SUCCESS = 'myApp/NEW_STUDENT_SUCCESS';
 const NEW_STUDENT_FAILURE = 'myApp/NEW_STUDENT_FAILURE';
 const NEW_STUDENT_ALWAYS = 'myApp/NEW_STUDENT_ALWAYS';

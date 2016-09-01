@@ -18,7 +18,10 @@ export default class StudentList extends Component {
             <Link
               style={{
                 display: 'inline-block',
-                margin: '0 3px',
+                margin: '3px',
+                fontSize: '24px',
+                border: '1px solid #777',
+                boxShadow: '1px 1px 3px #444',
               }}
               className='label label-primary'
               to={`/students/${student.id}`}
