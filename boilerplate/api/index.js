@@ -57,7 +57,7 @@ export function newStudent(student) {
   _setStudents(students);
 
   const promise = new Promise((resolve, reject) => {
-    setTimeout(() => resolve(students), 750);
+    setTimeout(() => resolve(students), 300);
   });
 
   return promise;
@@ -66,7 +66,7 @@ export function newStudent(student) {
 export function getStudents() {
   const promise = new Promise((resolve, reject) => {
     setTimeout(() =>
-      resolve(_getStudents()), 750);
+      resolve(_getStudents()), 300);
   });
 
   return promise;
