@@ -2,7 +2,7 @@ import 'babel-polyfill';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Router, Route, browserHistory, IndexRedirect, IndexRoute } from 'react-router';
+import { Router, Route, hashHistory, IndexRedirect, IndexRoute } from 'react-router';
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
@@ -23,7 +23,7 @@ const store = createStore(
 
 ReactDOM.render(
   <Provider store={store}>
-    <Router history={browserHistory}>
+    <Router history={hashHistory}>
       <Route path='/' component={App}>
 
         {/* By default, forward traffic to /students */}
